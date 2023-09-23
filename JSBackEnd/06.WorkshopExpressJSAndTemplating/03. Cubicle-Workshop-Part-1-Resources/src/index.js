@@ -1,5 +1,6 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
+const path = require('path');
 
 const app = express();
 const PORT = 5050;
@@ -8,6 +9,10 @@ const PORT = 5050;
 app.engine('hbs', handlebars.engine({extname: 'hbs'}));
 app.set('view engine', 'hbs');
 app.set('views', 'src/views');
+
+// Setup static files
+const statiFiles = express.static(path.resolve(__dirname, 'public'));
+app.use(statiFiles);
 
 app.get('/', (req, res) => {
     res.render('index');
