@@ -11,8 +11,7 @@ app.set('view engine', 'hbs');
 app.set('views', 'src/views');
 
 // Setup static files
-const statiFiles = express.static(path.resolve(__dirname, 'public'));
-app.use(statiFiles);
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.render('index');
