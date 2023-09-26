@@ -1,41 +1,24 @@
+const fs = require("fs/promises");
 const uniqid = require('uniqid');
-const cubes = [
-    {
-        id: '39h212bslmx4iew6',
-        name: 'ema crow',
-        description: 'asdasd',
-        imageUrl: 'https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png',
-        difficultyLevel: 1
-      },
-      {
-        id: '39h212bslmx4iobm',
-        name: 'Easy Lasagna2',
-        description: 'gsgsgs',
-        imageUrl: 'https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png',
-        difficultyLevel: 3
-      },
-      {
-        id: '39h215dklmx4o1v6',
-        name: 'cube3',
-        description: 'n/a',
-        imageUrl: 'https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png',
-        difficultyLevel: 1
-      }
-];
 
-exports.create = (cubeData) => {
+exports.create = async (cubeData) => {
     const newCube = {
         id: uniqid(),
         ...cubeData,
     };
+    const data = await fs.readFile('src/config/database.json');
+    const jsonData = JSON.parse(data);
 
-    cubes.push(newCube);
+    jsonData.cubes.push(newCube);
+    await fs.writeFile('src/config/database.json', JSON.stringify(jsonData));
 
     return newCube;
 };
 
-exports.getAll = (search, from, to) => {
-    let filterCubes = [...cubes];
+exports.getAll = async (search, from, to) => {
+    const data = await fs.readFile('src/config/database.json');
+    const jsonData = JSON.parse(data);
+    let filterCubes = [...jsonData.cubes];
 
     if (search) {
       filterCubes = filterCubes.filter((cube) => 
@@ -57,6 +40,9 @@ exports.getAll = (search, from, to) => {
     return filterCubes;
 };
 
-exports.getSingleCube = (id) => {
+exports.getSingleCube = async (id) => {
+  const data = await fs.readFile('src/config/database.json');
+    const jsonData = JSON.parse(data);
+    let cubes = jsonData.cubes;
   return cubes.find((cube) => cube.id === id);
 };
