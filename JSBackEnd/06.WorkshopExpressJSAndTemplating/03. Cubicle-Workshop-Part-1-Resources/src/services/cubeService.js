@@ -10,8 +10,8 @@ const cubes = [
       {
         id: '39h212bslmx4iobm',
         name: 'Easy Lasagna2',
-        description: 'https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png',
-        imageUrl: 'cxczc',
+        description: 'gsgsgs',
+        imageUrl: 'https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png',
         difficultyLevel: 3
       },
       {
@@ -34,6 +34,29 @@ exports.create = (cubeData) => {
     return newCube;
 };
 
-exports.getAll = () => {
-    return [...cubes];
+exports.getAll = (search, from, to) => {
+    let filterCubes = [...cubes];
+
+    if (search) {
+      filterCubes = filterCubes.filter((cube) => 
+        cube.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (from) {
+      filterCubes = filterCubes.filter((cube) => 
+        cube.difficultyLevel >= Number(from)
+      );
+    }
+
+    if (to) {
+      filterCubes = filterCubes.filter((cube) => 
+        cube.difficultyLevel <= Number(to)
+      );
+    }
+    return filterCubes;
+};
+
+exports.getSingleCube = (id) => {
+  return cubes.find((cube) => cube.id === id);
 };
