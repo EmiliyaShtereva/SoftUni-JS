@@ -49,67 +49,30 @@ let breeds = ['Unknown breed', 'Persian cat', 'Cutie', 'ulichna'];
     app.set('view engine', 'hbs');
     app.set('views', 'src/views');
 
+    const bodyParser = express.urlencoded({extended: false});
+    app.use(bodyParser);
 
-    // app.get('/', (req, res) => {
-    //     res.render('');
-    // });
-        // const imageUrlPattern = /{{imageUrl}}/g;
-        // const namePattern =  /{{name}}/g;
-        // const breedPattern =  /{{breed}}/g;
-        // const descriptionPattern =  /{{description}}/g;
-        // const id =  /{{id}}/g;
+    app.use(express.static(path.resolve(__dirname, 'public')));
 
-        // const catTemplate = await fs.readFile('./views/home/catTemplate.html', 'utf-8');
-        // const homeHtml = await fs.readFile('./views/home/index.html', 'utf-8');
+    app.get('/', (req, res) => {
+        res.render('index', {cats});
+    });
 
-        // const catHtml = cats.map((cat) => catTemplate
-        //     .replace(imageUrlPattern, cat.imageUrl)
-        //     .replace(namePattern, cat.name)
-        //     .replace(breedPattern, cat.breed)
-        //     .replace(descriptionPattern, cat.description)
-        //     .replace(id, cat.id)
-        // ).join('');
+    app.get('/cats/add-breed', (req, res) => {
+        res.render('addBreed');
+    });
 
-        // const homeHtmlTemplate = homeHtml.replace('{{cats}}', catHtml);
+    app.get('/cats/add-cat', (req, res) => {
+        res.render('addCat');
+    });
 
-        // res.writeHead(200, { 'Content-Type': 'text/html' });
-        // res.write(homeHtmlTemplate);
+    app.get('/cats-edit/catId', (req, res) => {
+        res.render('catShelter');
+    });
 
-    
+    app.get('/cats-find-new-home/catId', (req, res) => {
+        res.render('catShelter');
+    });
 
-    // } else if (url === '/content/styles/site.css') {
-    //     const siteCss = await fs.readFile('./content/styles/site.css', 'utf-8');
-    //     res.writeHead(200, { 'Content-Type': 'text/css' });
-    //     res.write(siteCss);
-    // } else if (url === '/cats/add-breed' && method === 'GET') {
-    //     const addBreedHtml = await fs.readFile('./views/addBreed.html', 'utf-8');
-    //     res.writeHead(200, { 'Content-Type': 'text/html' });
-    //     res.write(addBreedHtml);
-    // } else if (url === '/cats/add-cat' && method === 'GET') {
-    //     const addCatHtml = await fs.readFile('./views/addCat.html', 'utf-8');
-    //     res.writeHead(200, { 'Content-Type': 'text/html' });
-    //     res.write(addCatHtml);
-    // } else if (url.includes('/cats-edit') && method === 'GET') {
-    //     const editCatHtml = await fs.readFile('./views/editCat.html', 'utf-8');
-    //     res.writeHead(200, { 'Content-Type': 'text/html' });
-    //     res.write(editCatHtml);
-    // } else if (url.includes('/cats-find-new-home') && method === 'GET') {
-    //     const catShelterHtml = await fs.readFile('./views/catShelter.html', 'utf-8');
-    //     res.writeHead(200, { 'Content-Type': 'text/html' });
-    //     res.write(catShelterHtml);
-    // } else if (url === '/cats/add-breed' && method === 'POST') {
-    //     let body = '';
-    //     req.on('data', chunk => body += chunk);
-    //     req.on('end', () => {
-    //         const pattern = /[a-zA-z]+/g;
-    //         const newData = body.match(pattern).splice(1);
-    //         let breed = newData.join(' ');
-    //         if (!breeds.includes(breed)) {
-    //             breeds.push(breed);
-    //         }
-    //     })
-    //     res.writeHead(304, { location: '/' });
-    // }
-    // res.end();
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
