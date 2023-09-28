@@ -1,6 +1,7 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
+const uniqid = require('uniqid');
 const app = express();
 const fs = require('fs/promises');
 const PORT = 5555;
@@ -49,8 +50,7 @@ let breeds = ['Unknown breed', 'Persian cat', 'Cutie', 'ulichna'];
     app.set('view engine', 'hbs');
     app.set('views', 'src/views');
 
-    const bodyParser = express.urlencoded({extended: false});
-    app.use(bodyParser);
+    app.use(express.urlencoded({extended: false}));
 
     app.use(express.static(path.resolve(__dirname, 'public')));
 
@@ -62,17 +62,44 @@ let breeds = ['Unknown breed', 'Persian cat', 'Cutie', 'ulichna'];
         res.render('addBreed');
     });
 
+    app.post('/cats/add-breed', (req, res) => {
+        const {breed} = req.body;
+        breeds.push(breed);
+        res.redirect('/');
+        console.log(breeds);
+    });
+
     app.get('/cats/add-cat', (req, res) => {
         res.render('addCat');
     });
 
-    app.get('/cats-edit/catId', (req, res) => {
+    app.post('/cats/add-cat', (req, res) => {
+        const {name, description, image, breed} = req.body;
+        cats.push({id:uniqid(), name, description, image, breed});
+        res.redirect('/');
+    });
+
+    app.get('/cats-edit/:catId', (req, res) => {
+        const {catId} = req.params;
+        const cat = cats.find((cat) => cat.id == catId);
+        console.log(cat);
+        res.render('editCat', {...cat});
+    });
+
+    app.post('/cats-edit/:catId', (req, res) => {
+        res.redirect('/');
+    });
+
+    app.get('/cats-find-new-home/:catId', (req, res) => {
         res.render('catShelter');
     });
 
-    app.get('/cats-find-new-home/catId', (req, res) => {
-        res.render('catShelter');
+    app.post('/cats-find-new-home/:catId', (req, res) => {
+        res.redirect('/');
     });
 
+    app.get('*', (req, res) => {
+        res.status(404).send('Page not found');
+    });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
