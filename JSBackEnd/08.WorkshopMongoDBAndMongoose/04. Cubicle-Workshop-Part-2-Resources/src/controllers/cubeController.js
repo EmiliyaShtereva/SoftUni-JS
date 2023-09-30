@@ -15,13 +15,15 @@ router.post('/create', async (req, res) => {
 router.get('/:cubeId/details', async (req, res) => {
     const {cubeId} = req.params;
     const cube = await cubeService.getSingleCube(cubeId);
+    console.log(cube);
 
     if (!cube) {
         res.redirect('/404');
         return;
     }
 
-    res.render('cube/details', {cube});
+    const hasAccessories = cube.accessories?.length > 0;
+    res.render('cube/details', {cube, hasAccessories});
 });
 
 // accessory attachment

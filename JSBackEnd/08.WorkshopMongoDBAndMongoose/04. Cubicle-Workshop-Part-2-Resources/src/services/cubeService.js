@@ -32,7 +32,7 @@ exports.getAll = async (search, from, to) => {
     return filterCubes;
 };
 
-exports.getSingleCube = async (id) => Cube.findById(id).lean();
+exports.getSingleCube = async (id) => Cube.findById(id).populate('accessories').lean();
 
 exports.attachAcessory = async (cubeId, accessoryId) => {
   const cube = await Cube.findById(cubeId);
