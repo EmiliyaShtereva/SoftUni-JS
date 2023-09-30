@@ -20,7 +20,7 @@ router.get('/:cubeId/details', async (req, res) => {
         return;
     }
 
-    res.render('details', {...cube});
+    res.render('details', {cube});
 });
 
 module.exports = router;

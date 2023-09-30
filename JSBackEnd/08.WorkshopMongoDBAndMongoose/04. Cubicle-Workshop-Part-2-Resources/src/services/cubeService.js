@@ -10,9 +10,7 @@ exports.create = async (cubeData) => {
 };
 
 exports.getAll = async (search, from, to) => {
-    const data = await fs.readFile('src/config/database.json');
-    const jsonData = JSON.parse(data);
-    let filterCubes = [...jsonData.cubes];
+    let filterCubes = await Cube.find().lean();
 
     if (search) {
       filterCubes = filterCubes.filter((cube) => 
@@ -34,9 +32,4 @@ exports.getAll = async (search, from, to) => {
     return filterCubes;
 };
 
-exports.getSingleCube = async (id) => {
-  const data = await fs.readFile('src/config/database.json');
-    const jsonData = JSON.parse(data);
-    let cubes = jsonData.cubes;
-  return cubes.find((cube) => cube.id === id);
-};
+exports.getSingleCube = async (id) => Cube.findById(id).lean();
