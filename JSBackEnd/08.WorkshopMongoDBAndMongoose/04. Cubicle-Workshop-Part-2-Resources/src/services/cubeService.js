@@ -1,18 +1,12 @@
 const fs = require("fs/promises");
-const uniqid = require('uniqid');
+const Cube = require('./../models/Cube.js');
 
 exports.create = async (cubeData) => {
-    const newCube = {
-        id: uniqid(),
-        ...cubeData,
-    };
-    const data = await fs.readFile('src/config/database.json');
-    const jsonData = JSON.parse(data);
+    // const cube = new Cube(cubeData);
+    // await cube.save();
 
-    jsonData.cubes.push(newCube);
-    await fs.writeFile('src/config/database.json', JSON.stringify(jsonData));
-
-    return newCube;
+    const cube = await Cube.create(cubeData);
+    return cube;
 };
 
 exports.getAll = async (search, from, to) => {
