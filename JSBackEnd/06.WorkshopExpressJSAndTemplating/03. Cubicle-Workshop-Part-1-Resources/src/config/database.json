@@ -1,0 +1,32 @@
+{
+    "cubes": [
+        {
+            "id": "39h212bslmx4iew6",
+            "name": "ema crow",
+            "description": "asdasd",
+            "imageUrl": "https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png",
+            "difficultyLevel": 1
+        },
+        {
+            "id": "39h212bslmx4iobm",
+            "name": "Easy Lasagna2",
+            "description": "gsgsgs",
+            "imageUrl": "https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png",
+            "difficultyLevel": 3
+        },
+        {
+            "id": "39h215dklmx4o1v6",
+            "name": "cube3",
+            "description": "n/a",
+            "imageUrl": "https://images.saymedia-content.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:eco%2Cw_1200/MTk3MDg5MjU5NDA3MDI1MjM1/rubik-cube-algorithms.png",
+            "difficultyLevel": 1
+        },
+        {
+            "id": "39h21654ln0fmg58",
+            "name": "cube4",
+            "description": "n/a",
+            "imageUrl": "https://5.imimg.com/data5/SELLER/Default/2022/2/ZU/FH/UB/56427633/rubikscube.jpg",
+            "difficultyLevel": 1
+        }
+    ]
+}
