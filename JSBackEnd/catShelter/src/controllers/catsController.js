@@ -7,17 +7,18 @@ router.get('/add-breed', (req, res) => {
 
 router.post('/add-breed', async (req, res) => {
     const {breed} = req.body;
-    await catService.createBreed(breed);
+    await catService.createBreed({breed});
     res.redirect('/');
 });
 
-router.get('/add-cat', (req, res) => {
-    res.render('addCat');
+router.get('/add-cat', async (req, res) => {
+    const breeds = await catService.getAllBreeds();
+    res.render('addCat', {breeds});
 });
 
 router.post('/add-cat', async (req, res) => {
     const {name, description, image, breed} = req.body;
-    await catService.createCat({name, description, image, breed});
+    await catService.createCat({name, description, imageUrl: image, breed});
     res.redirect('/');
 });
 

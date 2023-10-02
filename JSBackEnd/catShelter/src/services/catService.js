@@ -1,50 +1,40 @@
-const fs = require("fs/promises");
-const uniqid = require('uniqid');
+const Cat = require('./../models/Cat.js');
+const Breed = require('./../models/Breed.js');
 
 exports.createCat = async (catData) => {
-    const newCat = {
-        id: uniqid(),
-        ...catData,
-    }
-
-    const data = await fs.readFile('src/config/catsdata.json');
-    const jsonData = JSON.parse(data);
-
-    jsonData.cats.push(newCat);
-    await fs.writeFile('src/config/catsdata.json', JSON.stringify(jsonData));
-
-    return newCat;
+    const cat = await Cat.create(catData);
+    return cat;
 }
 
 exports.createBreed = async (breedData) => {
-    const newBreed = breedData;
-
-    const data = await fs.readFile('src/config/breedsdata.json');
-    const jsonData = JSON.parse(data);
-
-    jsonData.breeds.push(newBreed);
-    await fs.writeFile('src/config/breedsdata.json', JSON.stringify(jsonData));
-
-    return newBreed;
+    const breed = await Breed.create(breedData);
+    return breed;
 }
 
-exports.getAllCats = async () => {
-    const data = await fs.readFile('src/config/catsdata.json');
-    const jsonData = JSON.parse(data);
-    let filterCats = [...jsonData.cats];
-    return filterCats;
+exports.getAllCats = async (search) => {
+    let cats = await Cat.find().lean();
+
+    if (search) {
+        cats = cats.filter((cat) => 
+          cat.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+      
+    return cats;
 };
 
 exports.getAllBreeds = async () => {
-    const data = await fs.readFile('src/config/breedsdata.json');
-    const jsonData = JSON.parse(data);
-    let filterBreeds = [...jsonData.breeds];
-    return filterBreeds;
+    const breeds = await Breed.find().lean();
+    return breeds;
 };
 
-exports.getSingleCat = async (id) => {
-    const data = await fs.readFile('src/config/catsdata.json');
-    const jsonData = JSON.parse(data);
-    let cats = jsonData.cats;
-    return cats.find((cat) => cat.id === id);
-  };
+exports.editCat = async (catId, catData) => {
+    const cat = await Cat.findByIdAndUpdate(catId, {name: catData.name, description: catData.description, imageUrl: catData.imageUrl, breed: catData.breed}).lean();
+    return cat;
+};
+
+exports.deleteCat = async (catId) => {
+    await Cat.findByIdAndDelete(catId).lean();
+};
+
+exports.getSingleCat = async (id) => Cat.findById(id).lean();
