@@ -4,6 +4,7 @@ const express = require('express');
 const expressConfig = require('./config/expressConfig.js');
 const handlebarsConfig = require('./config/handlebarsConfig.js');
 const dbConnect = require('./config/dbConfig.js');
+const errorHandler = require('./middlewares/errorHandlerMiddleware.js');
 
 const {PORT} = require('./constants.js');
 const routes = require('./router.js');
@@ -22,5 +23,6 @@ dbConnect()
 
 // Routing
 app.use(routes);
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}...`));
