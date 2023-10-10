@@ -8,14 +8,19 @@ router.get('/create', (req, res) => {
 
 router.post('/create', async (req, res) => {
     const {name, description, imageUrl, difficultyLevel} = req.body;
-    await cubeService.create({name, description, imageUrl, difficultyLevel: Number(difficultyLevel)});
+    await cubeService.create({
+        name, 
+        description, 
+        imageUrl, 
+        difficultyLevel: Number(difficultyLevel),
+        owner: req.user,
+    });
     res.redirect('/');
 });
 
 router.get('/:cubeId/details', async (req, res) => {
     const {cubeId} = req.params;
     const cube = await cubeService.getSingleCube(cubeId);
-    console.log(cube);
 
     if (!cube) {
         res.redirect('/404');
