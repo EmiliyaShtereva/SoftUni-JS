@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const userService = require('../survices/userService.js')
+const userService = require('../survices/userService.js');
 
 router.get('/login', (req, res) => {
     res.render('guest/login');
