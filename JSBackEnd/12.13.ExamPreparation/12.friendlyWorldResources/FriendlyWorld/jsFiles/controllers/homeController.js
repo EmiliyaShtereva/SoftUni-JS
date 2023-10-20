@@ -1,11 +1,13 @@
 const router = require('express').Router();
+const animalService = require('../survices/animalService.js');
 
 router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard');
+router.get('/dashboard', async (req, res) => {
+    const animals = await animalService.getAll();
+    res.render('dashboard', {animals});
 });
 
 router.get('/search', (req, res) => {
