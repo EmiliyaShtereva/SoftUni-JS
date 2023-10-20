@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const handlebars = require('express-handlebars');
 const mongoose = require('mongoose');
-const URL = 'mongodb://localhost:27017/cubical-sep-2023';
+const URL = 'mongodb://localhost:27017/friendly-world';
 
 exports.expressConfig = (app) => {
     app.use(express.static(path.resolve(__dirname, '../static')));
