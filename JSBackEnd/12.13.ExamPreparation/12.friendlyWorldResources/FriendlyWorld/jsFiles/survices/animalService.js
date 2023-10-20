@@ -6,6 +6,10 @@ exports.getAll = () => Animal.find().lean();
 
 exports.singleAnimal = (animalId) => Animal.findById(animalId).lean();
 
+exports.update = (animalId, createData) => Animal.findByIdAndUpdate(animalId, createData);
+
+exports.delete = (animalId) => Animal.findByIdAndDelete(animalId);
+
 exports.addDonationsToAnimal = async (animalId, userId) => {
     const animal = await Animal.findById(animalId);
     const isExistingInDonations = animal.donations.some((d) => d?.toString() === userId);

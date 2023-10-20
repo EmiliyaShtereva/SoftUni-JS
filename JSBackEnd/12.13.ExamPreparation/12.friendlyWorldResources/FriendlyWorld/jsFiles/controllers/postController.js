@@ -29,11 +29,28 @@ router.get('/:animalId/details', async (req, res) => {
     res.render('post/details', {animal, isOwner, hasDonated});
 });
 
-router.get('/edit', (req, res) => {
-    res.render('post/edit');
+router.get('/:animalId/edit', async (req, res) => {
+    const {animalId} = req.params;
+    const animal = await animalService.singleAnimal(animalId);
+    res.render('post/edit', {animal});
 });
 
-router.get('/:animalId/donate', async (req, res) => {
+router.post('/:animalId/edit', async (req, res) => {
+    const {animalId} = req.params;
+    const {name, years, kind, image, need, location, description} = req.body;
+    const payload = {name, years, kind, image, need, location, description, owner: req.user};
+
+    await animalService.update(animalId, payload);
+    res.redirect(`/posts/${animalId}/details`);
+});
+
+router.get('/:animalId/delete', async (req, res) => {
+    const {animalId} = req.params;
+    await animalService.delete(animalId);
+    res.redirect('/dashboard');
+});
+
+router.get('/:animalId/donate', isAuth, async (req, res) => {
     const {animalId} = req.params;
     const {_id} = req.user;
 
