@@ -1,8 +1,15 @@
 const router = require('express').Router();
 const animalService = require('../survices/animalService.js');
 
-router.get('/', (req, res) => {
-    res.render('home');
+router.get('/', async (req, res) => {
+    const animals = await animalService.getAll();
+    const lastAnimals = animals.slice(animals.length - 3);
+    if (animals.length < 3) {
+        const lastAnimals = animals;
+        res.render('home', {lastAnimals});
+        return;
+    }
+    res.render('home', {lastAnimals});
 });
 
 router.get('/dashboard', async (req, res) => {
