@@ -11,11 +11,13 @@
 
 <body>
 
-    {{!-- <div>
+    {{#if errorMessages}}
+        <div>
         <div class="errorContainer">
-            <p>Error</p>
+            <p>{{errorMessages}}</p>
         </div>
-    </div> --}}
+    </div>
+    {{/if}}
 
     <div id="wrapper">
         <header>

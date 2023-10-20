@@ -1,19 +1,26 @@
 const router = require('express').Router();
 const userService = require('../survices/userService.js');
+const { extractErrorMsgs } = require('../errorHandler.js');
 
 router.get('/login', (req, res) => {
-    res.render('guest/login');
+    res.render('user/login');
 });
 
 router.get('/register', (req, res) => {
-    res.render('guest/register');
+    res.render('user/register');
 });
 
 router.post('/register', async (req, res) => {
     const {email, password, repeatPassword} = req.body;
-    const token = await userService.register({email, password, repeatPassword});
-    res.cookie('token', token, {httpOnly: true});
-    res.redirect('/');
+
+    try {
+        const token = await userService.register({email, password, repeatPassword});
+        res.cookie('token', token, {httpOnly: true});
+        res.redirect('/');
+    } catch(error) {
+        const errorMessages = extractErrorMsgs(error).join('\n');
+        res.status(404).render('user/register', {errorMessages});
+    }
 });
 
 router.get('/logout', (req, res) => {
