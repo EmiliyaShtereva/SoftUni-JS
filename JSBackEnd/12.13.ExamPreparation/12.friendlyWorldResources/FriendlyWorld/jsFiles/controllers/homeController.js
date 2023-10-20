@@ -25,8 +25,7 @@ router.post('/search', async (req, res) => {
     let animals = await animalService.getAll();
     animals = animals.filter((animal) => 
         animal.location.toLowerCase().includes(location.toLowerCase())
-      );
-      console.log(animals)
+    );
     res.render('search', {animals});
 });
 
