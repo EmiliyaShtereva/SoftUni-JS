@@ -19,12 +19,26 @@ router.post('/create', isAuth, async (req, res) => {
     }
 });
 
-router.get('/details', (req, res) => {
-    res.render('post/details');
+router.get('/:animalId/details', async (req, res) => {
+    const {animalId} = req.params;
+    const animal = await animalService.singleAnimal(animalId);
+    const {user} = req;
+    const {owner} = animal;
+    const isOwner = user?._id === owner._id.toString();
+    const hasDonated = animal.donations?.some((d) => d?._id.toString() === user?._id);
+    res.render('post/details', {animal, isOwner, hasDonated});
 });
 
 router.get('/edit', (req, res) => {
     res.render('post/edit');
+});
+
+router.get('/:animalId/donate', async (req, res) => {
+    const {animalId} = req.params;
+    const {_id} = req.user;
+
+    await animalService.addDonationsToAnimal(animalId, _id);
+    res.redirect(`/posts/${animalId}/details`);
 });
 
 module.exports = router;
