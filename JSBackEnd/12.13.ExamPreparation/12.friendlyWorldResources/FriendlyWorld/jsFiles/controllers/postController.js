@@ -3,7 +3,7 @@ const animalService = require('../survices/animalService.js');
 const {isAuth} = require('../authMiddleware.js');
 const { extractErrorMsgs } = require('../errorHandler.js');
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuth, (req, res) => {
     res.render('post/create');
 });
 
@@ -29,13 +29,13 @@ router.get('/:animalId/details', async (req, res) => {
     res.render('post/details', {animal, isOwner, hasDonated});
 });
 
-router.get('/:animalId/edit', async (req, res) => {
+router.get('/:animalId/edit', isAuth, async (req, res) => {
     const {animalId} = req.params;
     const animal = await animalService.singleAnimal(animalId);
     res.render('post/edit', {animal});
 });
 
-router.post('/:animalId/edit', async (req, res) => {
+router.post('/:animalId/edit', isAuth, async (req, res) => {
     const {animalId} = req.params;
     const {name, years, kind, image, need, location, description} = req.body;
     const payload = {name, years, kind, image, need, location, description, owner: req.user};
@@ -44,7 +44,7 @@ router.post('/:animalId/edit', async (req, res) => {
     res.redirect(`/posts/${animalId}/details`);
 });
 
-router.get('/:animalId/delete', async (req, res) => {
+router.get('/:animalId/delete', isAuth, async (req, res) => {
     const {animalId} = req.params;
     await animalService.delete(animalId);
     res.redirect('/dashboard');
