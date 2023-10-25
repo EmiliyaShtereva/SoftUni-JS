@@ -1,0 +1,29 @@
+const jwt = require('./jwt.js');
+const SECRET = '17e202b3-a059-4eda-8d1f-8314002df69b';
+
+exports.auth = async (req, res, next) => {
+    const token = req.cookies['token'];
+
+    if (token) {
+        try {
+            const decodedToken = await jwt.verify(token, SECRET);
+            req.user = decodedToken;
+            res.locals.user = decodedToken;
+            res.locals.isAuthenticated = true;
+            next();
+        } catch(error) {
+            console.log({error});
+            res.clearCookie('token');
+            res.redirect('/users/login');
+        }
+    } else {
+        next();
+    }
+};
+
+exports.isAuth = async (req, res, next) => {
+    if (!req.user) {
+        return res.redirect('/users/login');
+    }
+    next();
+};
